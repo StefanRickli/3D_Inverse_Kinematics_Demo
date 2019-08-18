@@ -10,8 +10,7 @@ class Mesh
 {
 public:
     /// render mesh of the Mesh
-    virtual void draw(GLenum mode=GL_TRIANGLES) = 0
-    {}
+    virtual void draw(GLenum mode=GL_TRIANGLES) = 0;
 };
 
 
