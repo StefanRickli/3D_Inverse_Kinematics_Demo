@@ -4,8 +4,8 @@
 //
 //=============================================================================
 
-#include "armadillo"
-#include "Inv_kin_viewer.h"
+#include <armadillo>
+#include "inv_kin_viewer.h"
 #include "object/object.h"
 #include "glmath.h"
 #include <stdlib.h>     /* srand, rand */

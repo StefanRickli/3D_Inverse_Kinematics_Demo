@@ -21,12 +21,24 @@ add_definitions("-DSHADER_PATH=\"${SHADER_PATH}\"")
 add_executable(InverseKinematics ${HEADERS} ${HEADERS_OBJECT} ${HEADERS_MESH} ${SOURCES} ${SOURCES_OBJECT} ${SOURCES_MESH})
 target_include_directories(InverseKinematics SYSTEM PUBLIC ${GLEW_INCLUDE_DIRS})
 # Note: target_link_libraries(glfw) should actually bring in the necessary header files.
-target_link_libraries(InverseKinematics
-    lodePNG
-    glfw
-    ${GLEW_LIBRARIES}
-    ${OPENGL_LIBRARIES}
-    ${CMAKE_SOURCE_DIR}/lib/OpenBLAS-0.3.6/release/lib/libopenblas.lib)
+if(WIN32)
+    target_link_libraries(InverseKinematics
+        lodePNG
+        glfw
+        ${GLEW_LIBRARIES}
+        ${OPENGL_LIBRARIES}
+        ${CMAKE_SOURCE_DIR}/lib/OpenBLAS-0.3.6/release/lib/libopenblas.lib)
+elseif(UNIX)
+    target_link_libraries(InverseKinematics
+        lodePNG
+        glfw
+        ${GLEW_LIBRARIES}
+        ${OPENGL_LIBRARIES}
+        /opt/OpenBLAS/lib/libopenblas.a
+        /usr/lib/x86_64-linux-gnu/lapack/liblapack.so)
+endif()
 
-add_custom_command(TARGET InverseKinematics POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/lib/openBLAS-0.3.6/release/bin/libopenblas.dll $<TARGET_FILE_DIR:InverseKinematics>)
+if(WIN32)
+    add_custom_command(TARGET InverseKinematics POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/lib/openBLAS-0.3.6/release/bin/libopenblas.dll $<TARGET_FILE_DIR:InverseKinematics>)
+endif()

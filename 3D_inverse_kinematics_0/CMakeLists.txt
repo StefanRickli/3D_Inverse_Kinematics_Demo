@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
+set(CMAKE_VERBOSE_MAKEFILE ON)
 
 project(InverseKinematics)
 
@@ -55,9 +56,12 @@ endif()
 # add source directory to include path
 include_directories(${CMAKE_SOURCE_DIR}/src/)
 include_directories(${CMAKE_SOURCE_DIR}/lib/lodePNG/)
-include_directories(${CMAKE_SOURCE_DIR}/lib/OpenBLAS-0.3.6/release/include)
-include_directories(${CMAKE_SOURCE_DIR}/lib/Armadillo-9.400.3)
-
+include_directories(${CMAKE_SOURCE_DIR}/lib/armadillo-9.400.3)
+if(WIN32)
+  include_directories(${CMAKE_SOURCE_DIR}/lib/OpenBLAS-0.3.6/release/include)
+elseif(UNIX)
+  include_directories(${CMAKE_SOURCE_DIR}/lib/OpenBLAS-0.3.7/linux/include)
+endif()
 
 # build source directory
 add_subdirectory(lib/lodePNG)
